@@ -1,5 +1,6 @@
 
 from ast import Raise
+import numpy as np
 
 
 filename = 'input'

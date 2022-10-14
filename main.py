@@ -40,10 +40,11 @@ def Needleman_Wunsch(sequence_1, sequence_2):
 
     for i in range(len(sequence_1)):
         for j in range(len(sequence_2)):
+            blosum_value = blosum62[sequence_1[i]][sequence_2[j]]
             if sequence_1[i] == sequence_2[j]:
-                matching_matrix[i][j] = reward_match
+                matching_matrix[i][j] = blosum_value
             else:
-                matching_matrix[i][j] = penalty_mismatch
+                matching_matrix[i][j] = blosum_value
 
     for i in range(len(sequence_1) + 1):
         main_matrix[i][0] = i * gap_penalty

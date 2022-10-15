@@ -1,5 +1,3 @@
-
-from ast import Raise
 import numpy as np
 
 
@@ -32,7 +30,9 @@ blosum62 = {
 def Needleman_Wunsch(sequence_1, sequence_2):
 
     main_matrix = np.zeros((len(sequence_1) + 1, len(sequence_2) + 1))
+    # main_matrix = [([0]*(len(sequence_1) + 1)) for i in range(len(sequence_2) + 1)]
     matching_matrix = np.zeros((len(sequence_1), len(sequence_2)))
+    # matching_matrix = [([0]*(len(sequence_1))) for i in range(len(sequence_2))]
 
     reward_match = 1
     penalty_mismatch = -5
@@ -88,17 +88,25 @@ def Needleman_Wunsch(sequence_1, sequence_2):
 
 
 def output(title1, sequence1, title2, sequence2):
+    f = open("output", "a")
     print("-----------------------------------------------------------------------------------------------------------------")
     print("Comparing ", title1, " and ", title2)
     print(title1)
     print(sequence1)
     print(title2)
     print(sequence2)
+    f.write("-----------------------------------------------------------------------------------------------------------------\n")
+    f.write("Comparing " + title1 + " and " + title2 + "\n")
+    f.write(title1 + "\n")
+    f.write(sequence1 + "\n")
+    f.write(title2 + "\n")
+    f.write(sequence2 + "\n")
+    f.close()
 
 
 def inputTreatment():
-    titles = [""] * 11
-    contents = [""] * 11
+    titles = []
+    contents = []
     with open(filename) as f:
         mylist = f.read().splitlines()
 
@@ -108,14 +116,19 @@ def inputTreatment():
             if line.startswith(">"):
                 idx += 1
                 title = line[1:]
-                titles[idx] = title
+                titles.append(title)
             else:
-                contents[idx] += line
+                if 0 <= idx < len(contents): 
+                    contents[idx] += line 
+                else: 
+                    contents.append(line)
 
     return titles, contents
 
 
 def main():
+    open('output', 'w').close()
+
     titles, contents = inputTreatment()
 
     for idx1, content1 in enumerate(contents):
